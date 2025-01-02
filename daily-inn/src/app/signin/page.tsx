@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { createClient } from "@/utils/supabaseServer";
+import { supabase } from "@/utils/supabaseClient";
 
 export default function SignInPage() {
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
-  const supabasePromise = createClient();
 
   const searchParams = useSearchParams();
 
@@ -15,7 +14,6 @@ export default function SignInPage() {
   async function signInWithGoogle() {
     setIsGoogleLoading(true);
     try {
-      const supabase = await supabasePromise;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
